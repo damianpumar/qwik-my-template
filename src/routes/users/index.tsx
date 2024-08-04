@@ -4,9 +4,7 @@ import { PrismaClient } from "@prisma/client";
 
 export const useGetUsers = routeLoader$(async () => {
   const prisma = new PrismaClient();
-
   const users = await prisma.user.findMany();
-
   return users;
 });
 
@@ -18,7 +16,7 @@ export default component$(() => {
       <div class="breadcrumbs text-sm">
         <ul>
           <li>
-            <a href="/home">Home</a>
+            <a href="/">Home</a>
           </li>
           <li>
             <a>Users</a>
@@ -35,11 +33,6 @@ export default component$(() => {
         <table class="table">
           <thead>
             <tr>
-              <th>
-                <label>
-                  <input type="checkbox" class="checkbox" />
-                </label>
-              </th>
               <th>First Name</th>
               <th>Last Name</th>
               <th>Email</th>
@@ -49,11 +42,6 @@ export default component$(() => {
           <tbody>
             {users.value.map(({ id, firstName, lastName, email }) => (
               <tr key={id}>
-                <th>
-                  <label>
-                    <input type="checkbox" class="checkbox" />
-                  </label>
-                </th>
                 <td>{firstName}</td>
                 <td>{lastName}</td>
                 <td>{email}</td>

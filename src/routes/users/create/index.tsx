@@ -49,7 +49,7 @@ export default component$(() => {
       <div class="breadcrumbs text-sm">
         <ul>
           <li>
-            <a href="/home">Home</a>
+            <a href="/">Home</a>
           </li>
           <li>
             <a href="/users">Users</a>
@@ -115,7 +115,7 @@ export default component$(() => {
           </Field>
         </div>
 
-        <div class="mt-5 flex justify-between gap-5">
+        <div class="mt-5 flex gap-5">
           <button type="button" class="btn" onClick$={() => navigate("/users")}>
             Cancel
           </button>

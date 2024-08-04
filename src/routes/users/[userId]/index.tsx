@@ -2,6 +2,7 @@ import { component$ } from "@builder.io/qwik";
 import {
   routeAction$,
   routeLoader$,
+  useLocation,
   useNavigate,
   z,
   zod$,
@@ -79,22 +80,25 @@ export const useDeleteUser = routeAction$(
 );
 
 export default component$(() => {
+  const navigate = useNavigate();
+
   const [editUserForm, { Form, Field }] = useForm<EditUser>({
     loader: useFormLoader(),
     action: useFormAction(),
     validate: valiForm$(EditUser),
   });
-  const onDeleteUser = useDeleteUser();
-
-  const navigate = useNavigate();
   const values = getValues(editUserForm);
+
+  const location = useLocation();
+
+  const deleteUser = useDeleteUser();
 
   return (
     <>
       <div class="breadcrumbs text-sm">
         <ul>
           <li>
-            <a href="/home">Home</a>
+            <a href="/">Home</a>
           </li>
           <li>
             <a href="/users">Users</a>
@@ -162,12 +166,26 @@ export default component$(() => {
           </Field>
         </div>
 
-        <div class="mt-5 flex justify-between gap-5">
-          <button type="button" class="btn" onClick$={() => navigate("/users")}>
-            Cancel
-          </button>
-          <button type="submit" class="btn btn-success">
-            Save
+        <div class="mt-5 flex justify-between">
+          <div class="flex gap-5">
+            <button
+              type="button"
+              class="btn"
+              onClick$={() => navigate("/users")}
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-success">
+              Save
+            </button>
+          </div>
+
+          <button
+            type="button"
+            class="btn btn-error"
+            onClick="deleteModal.showModal()"
+          >
+            Delete
           </button>
         </div>
       </Form>
@@ -181,7 +199,9 @@ export default component$(() => {
               <button
                 type="button"
                 class="btn btn-error"
-                onClick$={() => onDeleteUser.submit({ id: user.value!.id })}
+                onClick$={() =>
+                  deleteUser.submit({ id: location.params.userId })
+                }
               >
                 Delete
               </button>
