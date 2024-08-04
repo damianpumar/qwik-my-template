@@ -50,21 +50,30 @@ export const useLogoutUser = routeAction$((_, { cookie, env, redirect }) => {
   throw redirect(302, "/login");
 });
 
-export const useUser = routeLoader$(({ sharedMap }) => {
+type SessionUser = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  isLoggedIn: boolean;
+};
+
+export const useUser = routeLoader$(({ sharedMap }): SessionUser => {
   const user = sharedMap.get("user")?.value;
 
   if (user) {
-    const { id, name } = JSON.parse(user);
+    const parsed = JSON.parse(user);
     return {
-      id,
-      name: name as string,
+      ...parsed,
       isLoggedIn: true,
     };
   }
 
   return {
     id: "",
-    name: "",
+    firstName: "",
+    lastName: "",
+    email: "",
     isLoggedIn: false,
   };
 });

@@ -1,12 +1,13 @@
 import { component$ } from "@builder.io/qwik";
-import { routeLoader$ } from "@builder.io/qwik-city";
+import { routeLoader$, useNavigate } from "@builder.io/qwik-city";
 import type { InitialValues } from "@modular-forms/qwik";
 import { formAction$, useForm, valiForm$ } from "@modular-forms/qwik";
 import { PrismaClient } from "@prisma/client";
 import * as v from "valibot";
 
 const CreateUserScheme = v.object({
-  name: v.pipe(v.string(), v.nonEmpty("Please enter your name.")),
+  firstName: v.pipe(v.string(), v.nonEmpty("Please enter your first name.")),
+  lastName: v.pipe(v.string(), v.nonEmpty("Please enter your last name.")),
   email: v.pipe(
     v.string(),
     v.nonEmpty("Please enter your email."),
@@ -17,7 +18,8 @@ const CreateUserScheme = v.object({
 type CreateUser = v.InferInput<typeof CreateUserScheme>;
 
 export const useFormLoader = routeLoader$<InitialValues<CreateUser>>(() => ({
-  name: "",
+  firstName: "",
+  lastName: "",
   email: "",
 }));
 
@@ -40,6 +42,8 @@ export default component$(() => {
     validate: valiForm$(CreateUserScheme),
   });
 
+  const navigate = useNavigate();
+
   return (
     <>
       <div class="breadcrumbs text-sm">
@@ -58,9 +62,9 @@ export default component$(() => {
       <Form style={{ width: "100%" }}>
         <div class="form-control">
           <label class="label">
-            <span class="label-text">Name</span>
+            <span class="label-text">First Name</span>
           </label>
-          <Field name="name">
+          <Field name="firstName">
             {(field, props) => (
               <div>
                 <input
@@ -68,7 +72,25 @@ export default component$(() => {
                   class="input input-bordered"
                   value={field.value}
                 />
-                {field.error && <p class="text-error text-sm">{field.error}</p>}
+                {field.error && <p class="text-sm text-error">{field.error}</p>}
+              </div>
+            )}
+          </Field>
+        </div>
+
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">Last Name</span>
+          </label>
+          <Field name="lastName">
+            {(field, props) => (
+              <div>
+                <input
+                  {...props}
+                  class="input input-bordered"
+                  value={field.value}
+                />
+                {field.error && <p class="text-sm text-error">{field.error}</p>}
               </div>
             )}
           </Field>
@@ -87,14 +109,19 @@ export default component$(() => {
                   class="input input-bordered"
                   value={field.value}
                 />
-                {field.error && <p class="text-error text-sm">{field.error}</p>}
+                {field.error && <p class="text-sm text-error">{field.error}</p>}
               </div>
             )}
           </Field>
         </div>
 
-        <div class="mt-5 flex flex-row gap-5">
-          <button class="btn">Save</button>
+        <div class="mt-5 flex justify-between gap-5">
+          <button type="button" class="btn" onClick$={() => navigate("/users")}>
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-success">
+            Save
+          </button>
         </div>
       </Form>
     </>

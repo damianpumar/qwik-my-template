@@ -1,16 +1,17 @@
 import { component$ } from "@builder.io/qwik";
-import { routeLoader$, useNavigate } from "@builder.io/qwik-city";
+import { routeLoader$ } from "@builder.io/qwik-city";
 import { PrismaClient } from "@prisma/client";
 
 export const useGetUsers = routeLoader$(async () => {
   const prisma = new PrismaClient();
+
   const users = await prisma.user.findMany();
+
   return users;
 });
 
 export default component$(() => {
   const users = useGetUsers();
-  const navigate = useNavigate();
 
   return (
     <div class="flex flex-col gap-10">
@@ -39,28 +40,27 @@ export default component$(() => {
                   <input type="checkbox" class="checkbox" />
                 </label>
               </th>
-              <th>Name</th>
+              <th>First Name</th>
+              <th>Last Name</th>
               <th>Email</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
-            {users.value.map(({ id, name, email, role }) => (
+            {users.value.map(({ id, firstName, lastName, email }) => (
               <tr key={id}>
                 <th>
                   <label>
                     <input type="checkbox" class="checkbox" />
                   </label>
                 </th>
-                <td>{name}</td>
+                <td>{firstName}</td>
+                <td>{lastName}</td>
                 <td>{email}</td>
                 <th>
-                  <button
-                    class="btn btn-ghost btn-xs"
-                    onClick$={() => navigate(`/users/${id}`)}
-                  >
-                    Details
-                  </button>
+                  <a href={`/users/${id}`}>
+                    <button class="btn btn-ghost btn-xs">Details</button>
+                  </a>
                 </th>
               </tr>
             ))}

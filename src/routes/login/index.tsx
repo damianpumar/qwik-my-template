@@ -74,13 +74,13 @@ export default component$(() => {
   });
 
   return (
-    <div class="hero bg-base-200 min-h-screen">
+    <div class="hero min-h-screen bg-base-200">
       <div class="hero-content flex-col lg:flex-row-reverse">
         <div class="text-center lg:text-left">
           <h1 class="text-5xl font-bold">Login now!</h1>
           <p class="py-6">Welcome to The Platform</p>
         </div>
-        <div class="card bg-base-100 w-full max-w-sm flex-shrink-0 shadow-2xl">
+        <div class="card w-full max-w-sm flex-shrink-0 bg-base-100 shadow-2xl">
           <div class="card-body">
             <Form onSubmit$={handleSubmit}>
               <div class="form-control">
@@ -94,11 +94,11 @@ export default component$(() => {
                         {...props}
                         type="email"
                         placeholder="Email"
-                        class="input input-bordered"
+                        class="input input-bordered w-full"
                         value={field.value}
                       />
                       {field.error && (
-                        <p class="text-error text-sm">{field.error}</p>
+                        <p class="text-sm text-error">{field.error}</p>
                       )}
                     </div>
                   )}
@@ -115,11 +115,11 @@ export default component$(() => {
                         {...props}
                         type="password"
                         placeholder="Password"
-                        class="input input-bordered"
+                        class="input input-bordered w-full"
                         value={field.value}
                       />
                       {field.error && (
-                        <p class="text-error text-sm">{field.error}</p>
+                        <p class="text-sm text-error">{field.error}</p>
                       )}
                     </div>
                   )}
@@ -139,7 +139,7 @@ export default component$(() => {
                           checked={field.value}
                         />
                         {field.error && (
-                          <p class="text-error text-sm">{field.error}</p>
+                          <p class="text-sm text-error">{field.error}</p>
                         )}
                       </div>
                     )}

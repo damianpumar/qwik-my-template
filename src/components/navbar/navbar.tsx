@@ -13,7 +13,7 @@ interface NavbarProps {
 export const Navbar = component$(({ items }: NavbarProps) => {
   const user = useUser();
 
-  const userInitials = user.value.name
+  const userInitials = user.value.firstName
     .split(" ")
     .map((letter) => letter[0])
     .join("");
@@ -25,17 +25,16 @@ export const Navbar = component$(({ items }: NavbarProps) => {
       </div>
       <div class="flex-none">
         <div class="dropdown dropdown-end">
-          <div tabIndex={0} class="avatar placeholder btn btn-ghost btn-circle">
+          <div tabIndex={0} class="avatar placeholder btn btn-circle btn-ghost">
             <div class="avatar placeholder">
-              <div class="bg-neutral text-neutral-content w-12 rounded-full">
+              <div class="w-12 rounded-full bg-neutral text-neutral-content">
                 <span class="text-xs uppercase">{userInitials}</span>
               </div>
             </div>
           </div>
-
           <ul
             tabIndex={0}
-            class="menu menu-sm dropdown-content bg-base-200 rounded-box z-[1] mt-3 w-52 w-56 p-2 shadow"
+            class="menu dropdown-content menu-sm z-[1] mt-3 w-52 rounded-box bg-base-100 p-2 shadow"
           >
             {items.map(({ label, action }) => (
               <li key={label}>
