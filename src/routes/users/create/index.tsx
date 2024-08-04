@@ -1,22 +1,11 @@
 import { component$ } from "@builder.io/qwik";
-import {
-  Form,
-  routeAction$,
-  routeLoader$,
-  z,
-  zod$,
-} from "@builder.io/qwik-city";
+import { routeLoader$ } from "@builder.io/qwik-city";
 import type { InitialValues } from "@modular-forms/qwik";
-import {
-  formAction$,
-  formAction$,
-  useForm,
-  valiForm$,
-} from "@modular-forms/qwik";
+import { formAction$, useForm, valiForm$ } from "@modular-forms/qwik";
 import { PrismaClient } from "@prisma/client";
 import * as v from "valibot";
 
-const EditUser = v.object({
+const CreateUserScheme = v.object({
   name: v.pipe(v.string(), v.nonEmpty("Please enter your name.")),
   email: v.pipe(
     v.string(),
@@ -25,66 +14,31 @@ const EditUser = v.object({
   ),
 });
 
-type EditUser = v.InferInput<typeof EditUser>;
+type CreateUser = v.InferInput<typeof CreateUserScheme>;
 
-export const useFormLoader = routeLoader$<InitialValues<EditUser>>(
-  async ({ params }) => {
-    const userId = parseInt(params["userId"], 10);
+export const useFormLoader = routeLoader$<InitialValues<CreateUser>>(() => ({
+  name: "",
+  email: "",
+}));
 
+export const useFormAction = formAction$<CreateUser>(
+  async (values, { redirect }) => {
     const prisma = new PrismaClient();
-
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-    });
-
-    return {
-      email: user?.email,
-      name: user!.name!,
-    };
-  },
-);
-
-export const useFormAction = formAction$<EditUser>(
-  async (data, { params, redirect }) => {
-    const userId = parseInt(params["userId"], 10);
-
-    const prisma = new PrismaClient();
-
-    await prisma.user.update({
-      where: {
-        id: userId,
-      },
-      data,
+    await prisma.user.create({
+      data: values,
     });
 
     throw redirect(302, "/users");
   },
-  valiForm$(EditUser),
-);
-
-export const useDeleteUser = routeAction$(
-  async (data, { redirect }) => {
-    const prisma = new PrismaClient();
-    await prisma.user.delete({
-      where: {
-        id: parseInt(data.id),
-      },
-    });
-
-    throw redirect(302, "/users");
-  },
-  zod$({
-    id: z.string(),
-  }),
+  valiForm$(CreateUserScheme),
 );
 
 export default component$(() => {
-  const [editUserForm, { Form, Field }] = useForm<EditUser>({
+  const [createUserForm, { Form, Field }] = useForm<CreateUser>({
     loader: useFormLoader(),
     action: useFormAction(),
-    validate: valiForm$(EditUser),
+    validate: valiForm$(CreateUserScheme),
   });
-  const onDeleteUser = useDeleteUser();
 
   return (
     <>
@@ -97,7 +51,7 @@ export default component$(() => {
             <a href="/users">Users</a>
           </li>
           <li>
-            <Field name="name">{(field) => <a>{field.value}</a>}</Field>
+            <a>Create</a>
           </li>
         </ul>
       </div>
@@ -143,26 +97,6 @@ export default component$(() => {
           <button class="btn">Save</button>
         </div>
       </Form>
-
-      <dialog id="deleteModal" class="modal">
-        <div class="modal-box">
-          <h3 class="text-lg font-bold">Delete!</h3>
-          <p class="py-4">Are you sure to delete this user?</p>
-          <div class="modal-action">
-            <form action="" class="flex flex-row gap-5">
-              <button
-                type="button"
-                class="btn btn-error"
-                onClick$={() => onDeleteUser.submit({ id: user.value!.id })}
-              >
-                Delete
-              </button>
-
-              <button class="btn">Close</button>
-            </form>
-          </div>
-        </div>
-      </dialog>
     </>
   );
 });
