@@ -1,6 +1,5 @@
 import { component$ } from "@builder.io/qwik";
 import {
-  Form,
   routeAction$,
   routeLoader$,
   useLocation,
@@ -31,7 +30,7 @@ const EditUser = v.object({
 type EditUser = v.InferInput<typeof EditUser>;
 
 export const useFormLoader = routeLoader$<InitialValues<EditUser>>(
-  async ({ params }) => {
+  async ({ params, status }) => {
     const userId = parseInt(params["userId"], 10);
 
     const prisma = new PrismaClient();
@@ -40,8 +39,17 @@ export const useFormLoader = routeLoader$<InitialValues<EditUser>>(
       where: { id: userId },
     });
 
+    if (!user) {
+      throw status(404);
+    }
+
+    const { id, email, firstName, lastName } = user;
+
     return {
-      ...user!,
+      id,
+      email,
+      firstName,
+      lastName,
     };
   },
 );

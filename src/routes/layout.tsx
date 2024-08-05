@@ -1,4 +1,4 @@
-import { $, component$, Slot } from "@builder.io/qwik";
+import { $, component$, noSerialize, Slot } from "@builder.io/qwik";
 import {
   routeAction$,
   routeLoader$,
@@ -85,7 +85,7 @@ export default component$(() => {
 
   if (user.value.isLoggedIn) {
     return (
-      <div class="container mx-auto">
+      <div class="container mx-auto px-4 md:px-0">
         <Navbar items={[{ label: "Logout", action: onLogout }]} />
 
         <Slot />

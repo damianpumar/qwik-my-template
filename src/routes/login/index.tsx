@@ -40,6 +40,7 @@ export const useFormAction = formAction$<LoginForm>(
     const user = await prisma.user.findUnique({
       where: {
         email,
+        password,
       },
     });
 
@@ -146,6 +147,10 @@ export default component$(() => {
                   </Field>
                 </label>
               </div>
+
+              {!!loginForm.response.message && (
+                <p class="text-sm text-error">{loginForm.response.message}</p>
+              )}
 
               <div class="form-control mt-6">
                 <button type="submit" class="btn btn-primary">

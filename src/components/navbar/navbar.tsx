@@ -1,10 +1,11 @@
+import type { QRL } from "@builder.io/qwik";
 import { component$ } from "@builder.io/qwik";
 import { useUser } from "~/routes/layout";
 import { LuRocket } from "@qwikest/icons/lucide";
 
 export interface MenuItem {
   label: string;
-  action: Function;
+  action: QRL<() => unknown>;
 }
 
 interface NavbarProps {
@@ -20,7 +21,7 @@ export const Navbar = component$(({ items }: NavbarProps) => {
     .join("");
 
   return (
-    <div class="navbar bg-base-100">
+    <div class="navbar bg-base-100 p-0">
       <div class="flex-1">
         <div class="btn btn-ghost pointer-events-none text-xl normal-case	">
           <a href="/">The platform</a>
@@ -42,7 +43,7 @@ export const Navbar = component$(({ items }: NavbarProps) => {
           >
             {items.map(({ label, action }) => (
               <li key={label}>
-                <a onClick$={() => action()}>{label}</a>
+                <button onClick$={action}>{label}</button>
               </li>
             ))}
           </ul>
