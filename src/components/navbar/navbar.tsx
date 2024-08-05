@@ -1,5 +1,6 @@
 import { component$ } from "@builder.io/qwik";
 import { useUser } from "~/routes/layout";
+import { LuRocket } from "@qwikest/icons/lucide";
 
 export interface MenuItem {
   label: string;
@@ -21,8 +22,9 @@ export const Navbar = component$(({ items }: NavbarProps) => {
   return (
     <div class="navbar bg-base-100">
       <div class="flex-1">
-        <div class="btn btn-ghost text-xl normal-case">
+        <div class="btn btn-ghost pointer-events-none text-xl normal-case	">
           <a href="/">The platform</a>
+          <LuRocket />
         </div>
       </div>
       <div class="flex-none">

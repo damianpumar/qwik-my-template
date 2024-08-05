@@ -183,19 +183,21 @@ export default component$(() => {
           <button
             type="button"
             class="btn btn-error"
-            onClick="deleteModal.showModal()"
+            onClick$={() =>
+              (document.getElementById("deleteModal")! as any).showModal()
+            }
           >
             Delete
           </button>
         </div>
       </Form>
 
-      <dialog id="deleteModal" class="modal">
+      <dialog id="deleteModal" class="modal modal-bottom sm:modal-middle">
         <div class="modal-box">
           <h3 class="text-lg font-bold">Delete!</h3>
           <p class="py-4">Are you sure to delete this user?</p>
           <div class="modal-action">
-            <form action="" class="flex flex-row gap-5">
+            <form method="dialog" class="flex flex-row gap-5">
               <button
                 type="button"
                 class="btn btn-error"
