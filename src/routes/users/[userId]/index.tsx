@@ -1,5 +1,6 @@
 import { component$ } from "@builder.io/qwik";
 import {
+  Form,
   routeAction$,
   routeLoader$,
   useLocation,
@@ -104,9 +105,7 @@ export default component$(() => {
             <a href="/users">Users</a>
           </li>
           <li>
-            <a>
-              {values.firstName} {values.lastName}
-            </a>
+            {values.firstName} {values.lastName}
           </li>
         </ul>
       </div>

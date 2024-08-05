@@ -54,9 +54,7 @@ export default component$(() => {
           <li>
             <a href="/users">Users</a>
           </li>
-          <li>
-            <a>Create</a>
-          </li>
+          <li>Create</li>
         </ul>
       </div>
       <Form style={{ width: "100%" }}>

@@ -18,9 +18,7 @@ export default component$(() => {
           <li>
             <a href="/">Home</a>
           </li>
-          <li>
-            <a>Users</a>
-          </li>
+          <li>Users</li>
         </ul>
       </div>
       <h1>Users's directory</h1>
