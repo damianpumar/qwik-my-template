@@ -9,6 +9,7 @@ import {
   type InitialValues,
 } from "@modular-forms/qwik";
 import { PrismaClient } from "@prisma/client";
+import { LuRocket } from "@qwikest/icons/lucide";
 import * as v from "valibot";
 
 const LoginSchema = v.object({
@@ -70,8 +71,7 @@ export default component$(() => {
   });
 
   const handleSubmit: QRL<SubmitHandler<LoginForm>> = $((values, event) => {
-    // Runs on client
-    console.log(values);
+    console.log(values, event);
   });
 
   return (
@@ -79,7 +79,12 @@ export default component$(() => {
       <div class="hero-content flex-col lg:flex-row-reverse">
         <div class="text-center lg:text-left">
           <h1 class="text-5xl font-bold">Login now!</h1>
-          <p class="py-6">Welcome to The Platform</p>
+          <span class="py-6">
+            Welcome to
+            <p class="flex gap-1">
+              The Platform <LuRocket class="h-6 w-6" />
+            </p>
+          </span>
         </div>
         <div class="card w-full max-w-sm flex-shrink-0 bg-base-100 shadow-2xl">
           <div class="card-body">
