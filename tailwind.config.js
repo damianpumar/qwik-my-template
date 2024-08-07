@@ -3,8 +3,10 @@ export default {
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   daisyui: {
     themes: [
-      "lofi"
+      "lofi",
+      "black",
     ],
+
   },
   plugins: [require("@tailwindcss/typography"), require("daisyui")],
 };
