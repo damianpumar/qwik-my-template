@@ -1,7 +1,8 @@
-import type { QRL } from "@builder.io/qwik";
+import { type QRL } from "@builder.io/qwik";
 import { component$ } from "@builder.io/qwik";
 import { useUser } from "~/routes/layout";
-import { LuMoon, LuRocket, LuSun } from "@qwikest/icons/lucide";
+import { LuRocket } from "@qwikest/icons/lucide";
+import { ThemeSwitcher } from "./theme-switcher";
 
 export interface MenuItem {
   label: string;
@@ -45,9 +46,6 @@ export const Navbar = component$(({ items }: NavbarProps) => {
             <li>
               <a href="/users">Users</a>
             </li>
-            <li>
-              <a>About</a>
-            </li>
           </ul>
         </div>
         <div class="flex-1">
@@ -60,12 +58,7 @@ export const Navbar = component$(({ items }: NavbarProps) => {
 
       <div class="navbar-end">
         <div class="flex gap-5">
-          <label class="swap-rotate swap">
-            <input type="checkbox" class="theme-controller" value="black" />
-
-            <LuSun class="swap-off h-6 w-6 fill-current" />
-            <LuMoon class="swap-on h-6 w-6 fill-current" />
-          </label>
+          <ThemeSwitcher />
           <div class="dropdown dropdown-end">
             <div
               tabIndex={0}
