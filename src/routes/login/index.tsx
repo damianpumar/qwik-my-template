@@ -76,10 +76,10 @@ export default component$(() => {
 
   return (
     <div class="hero min-h-screen bg-base-200">
-      <div class="hero-content flex-col lg:flex-row-reverse">
+      <div class="hero-content w-full flex-col lg:flex-row-reverse">
         <div class="text-center lg:text-left">
           <h1 class="text-5xl font-bold">Login now!</h1>
-          <span class="py-6">
+          <span class="flex flex-wrap items-center justify-center py-2 md:py-6">
             Welcome to
             <p class="flex gap-1">
               The Platform <LuRocket class="h-6 w-6" />
